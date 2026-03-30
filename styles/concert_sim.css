@@ -1,0 +1,56 @@
+/* root variables */
+:root {
+    /* main colours */
+    --main-bg-colour: #ceb6d8;
+    --primary-colour: #7375de;
+
+    /* fonts */
+    --font-colour-1: #000000;
+    --font-colour-2: #757474;
+
+    /* panel colours */
+    --panel-colour-1: #9679DB;
+    --panel-colour-2: #db79a7;
+}   
+
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* A common addition to resets */
+}
+
+/* body */
+body {
+    font-family: 'Iosevka Charon Mono', monospace;
+    background: var(--main-bg-colour);
+    color: var(--font-colour-1);
+}
+
+/* layout */
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#topbar-controls {
+    height:60px;
+    background: var(--panel-colour-1);
+}
+
+#main {
+    display: flex;
+    flex: 1;
+}
+
+#canvas {
+    flex: 1;
+}
+
+#sidebar-controls {
+    width: 300px;
+    background: var(--panel-colour-1);
+}
+
+/* DEFINE COMPONENTS HERE */
