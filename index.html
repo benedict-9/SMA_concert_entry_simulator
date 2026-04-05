@@ -2,29 +2,119 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Concert Entry Simulation Model</title>
+    <title>Concert Entry Simulation</title>
 
-    <!-- CDN JS library dependencies -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
 
-    <!-- Font-->
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-
-    <!-- Stylesheet-->
-     <link rel="stylesheet" href="styles/concert_sim.css">
-     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Iosevka+Charon+Mono:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/concert_sim.css">
 </head>
 <body>
+<div id="app">
 
-    <!-- HTML code, SVG Canvas -->
+  <!-- TOP BAR -->
+  <div id="topbar-controls">
+    <span id="title">🎵 Concert Entry Simulator</span>
+    <div id="topbar-right">
+      <span id="clock">T = 0 min</span>
+      <button id="btn-start">▶ Start</button>
+      <button id="btn-pause">⏸ Pause</button>
+      <button id="btn-reset">↺ Reset</button>
+      <label>Speed:
+        <input type="range" id="speed-slider" min="1" max="20" value="5">
+        <span id="speed-label">5×</span>
+      </label>
+    </div>
+  </div>
 
-    <!-- .js simulation file -->
-     <script src="lib/concert_sim.js"></script>
-    
+  <div id="main">
+
+    <!-- SIDEBAR -->
+    <div id="sidebar-controls">
+      <div class="sidebar-section">
+        <div class="section-title">Arrivals</div>
+        <label>Total Attendees
+          <input type="range" id="cfg-total" min="100" max="2000" step="50" value="500">
+          <span class="val" id="val-total">500</span>
+        </label>
+        <label>% VIP
+          <input type="range" id="cfg-vip-pct" min="0" max="40" step="1" value="10">
+          <span class="val" id="val-vip-pct">10%</span>
+        </label>
+        <label>Arrival window (min)
+          <input type="range" id="cfg-arrival-window" min="10" max="90" step="5" value="60">
+          <span class="val" id="val-arrival-window">60</span>
+        </label>
+        <label>% with bags
+          <input type="range" id="cfg-bag-pct" min="0" max="100" step="5" value="70">
+          <span class="val" id="val-bag-pct">70%</span>
+        </label>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Batch Release</div>
+        <label>Batch size
+          <input type="range" id="cfg-batch-size" min="5" max="100" step="5" value="30">
+          <span class="val" id="val-batch-size">30</span>
+        </label>
+        <label>Batch interval (sec)
+          <input type="range" id="cfg-batch-interval" min="5" max="60" step="5" value="20">
+          <span class="val" id="val-batch-interval">20</span>
+        </label>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Bag Check</div>
+        <label>Normal lanes
+          <input type="range" id="cfg-bag-lanes" min="1" max="8" step="1" value="3">
+          <span class="val" id="val-bag-lanes">3</span>
+        </label>
+        <label>VIP lane serves normal if idle
+          <input type="checkbox" id="cfg-vip-spillover" checked>
+        </label>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">Downstream</div>
+        <label>Wristband counters
+          <input type="range" id="cfg-wrist" min="1" max="6" step="1" value="2">
+          <span class="val" id="val-wrist">2</span>
+        </label>
+        <label>Water stations
+          <input type="range" id="cfg-water" min="1" max="6" step="1" value="2">
+          <span class="val" id="val-water">2</span>
+        </label>
+        <label>% needing wristband
+          <input type="range" id="cfg-wrist-pct" min="0" max="100" step="5" value="60">
+          <span class="val" id="val-wrist-pct">60%</span>
+        </label>
+        <label>% wanting water
+          <input type="range" id="cfg-water-pct" min="0" max="100" step="5" value="40">
+          <span class="val" id="val-water-pct">40%</span>
+        </label>
+      </div>
+
+      <div class="sidebar-section stats-section">
+        <div class="section-title">Live Stats</div>
+        <div class="stat-row"><span>Holding</span><span id="stat-holding">0</span></div>
+        <div class="stat-row"><span>Bag check queue</span><span id="stat-bagq">0</span></div>
+        <div class="stat-row"><span>Wristband queue</span><span id="stat-wristq">0</span></div>
+        <div class="stat-row"><span>Water queue</span><span id="stat-waterq">0</span></div>
+        <div class="stat-row"><span>Entered venue</span><span id="stat-entered">0</span></div>
+        <div class="stat-row"><span>Avg wait (min)</span><span id="stat-avgwait">—</span></div>
+        <div class="stat-row"><span>P95 wait (min)</span><span id="stat-p95wait">—</span></div>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <div id="canvas"></div>
+
+  </div>
+</div>
+
+<script src="lib/concert_sim.js"></script>
 </body>
 </html>
