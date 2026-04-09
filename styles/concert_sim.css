@@ -173,6 +173,7 @@ input[type=range] { width: 60px; accent-color: var(--accent1); }
   font-size: 10px;
   font-family: 'Iosevka Charon Mono', monospace;
   text-anchor: middle;
+  dominant-baseline: hanging;
 }
 
 .stage-label {
@@ -189,14 +190,30 @@ input[type=range] { width: 60px; accent-color: var(--accent1); }
   stroke-width: 2;
 }
 
+/* human shaped icon for attendees */
+.attendee-person {
+  /* no CSS transition since position is lerped in JS*/
+}
+
+.attendee-person .person-head {
+  fill: currentColor;
+}
+
+.attendee-person .person-torso{
+  stroke: currentColor;
+}
+
 .dot-vip {
   fill: var(--accent-vip);
+  color: var(--accent-vip);
 }
 .dot-normal {
   fill: var(--accent-normal);
+  color: var(--accent-normal);
 }
 .dot-entered {
   fill: var(--green);
+  color: var(--green);
   opacity: 0.6;
 }
 
