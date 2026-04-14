@@ -6,6 +6,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,6 +53,15 @@
           <input type="range" id="cfg-bag-pct" min="0" max="100" step="5" value="70">
           <span class="val" id="val-bag-pct">70%</span>
         </label>
+        <label>Arrival process
+          <select id="cfg-arrival-mode">
+            <option value="poisson">Poisson (uniform)</option>
+            <option value="nhpp">NHPP (surge)</option>
+          </select>
+        </label>
+        <div id="nhpp-info" class="nhpp-note" style="display:none">
+          Surge peaks at 80% of window — models last-minute rush
+        </div>
       </div>
 
       <div class="sidebar-section">
@@ -113,6 +123,23 @@
     <div id="canvas"></div>
 
   </div>
+
+  <!-- OUTPUT CHART PANEL -->
+  <div id="chart-panel">
+    <div class="chart-cell">
+      <span class="chart-title">Queue Lengths</span>
+      <svg id="chart-queues"></svg>
+    </div>
+    <div class="chart-cell">
+      <span class="chart-title">Arrival Rate (per 5s)</span>
+      <svg id="chart-arrivals"></svg>
+    </div>
+    <div class="chart-cell">
+      <span class="chart-title">Wait Times (min)</span>
+      <svg id="chart-waits"></svg>
+    </div>
+  </div>
+
 </div>
 
 <script src="lib/concert_sim.js"></script>
