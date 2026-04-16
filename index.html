@@ -28,6 +28,7 @@
         <input type="range" id="speed-slider" min="1" max="100" value="5">
         <span id="speed-label">5×</span>
       </label>
+      <button id="btn-batch">⚙ Batch Run</button>
     </div>
   </div>
 
@@ -143,5 +144,26 @@
 </div>
 
 <script src="lib/concert_sim.js"></script>
+
+<!-- BATCH RUN MODAL -->
+<div id="batch-modal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>Batch Run — Output Analysis</span>
+      <button id="batch-close">✕</button>
+    </div>
+
+    <div class="modal-controls">
+      <label>Replications
+        <input type="number" id="batch-n" value="100" min="10" max="1000" step="10">
+      </label>
+      <button id="batch-run-btn">▶ Run</button>
+      <span id="batch-progress"></span>
+      <button id="batch-export" style="display:none">↓ CSV</button>
+    </div>
+
+    <div id="batch-results"></div>
+  </div>
+</div>
 </body>
 </html>
