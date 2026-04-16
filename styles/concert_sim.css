@@ -382,6 +382,8 @@ input[type=range] { width: 60px; accent-color: var(--accent1); }
 
 #batch-export { background: #2a3a4a; border: 1px solid #4fc3f7; color: #4fc3f7; }
 #batch-export:hover { background: #3a4a5a; }
+#batch-copy   { background: #2a3a2a; border: 1px solid #81c784; color: #81c784; }
+#batch-copy:hover { background: #3a4a3a; }
 
 #batch-results {
   overflow-y: auto;
